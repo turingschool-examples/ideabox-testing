@@ -7,21 +7,48 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      ideas: [
-        { id: 1, title: 'Prank Travis', description: 'Stick googly eyes on all his stuff' },
-        { id: 2, title: 'Make a secret password app', description: 'So you and your rideshare driver can both know neither one of you is lying' },
-      ]
+      ideas: [],
+      error: ''
     }
   }
 
+  componentDidMount() {
+    fetch('http://localhost:3001/api/v1/ideas')
+      .then(response => response.json())
+      .then(ideas => this.setState({ ideas }))
+      .catch(error => this.setState({ error: error.message }));
+  }
+
   addIdea = (newIdea) => {
-    this.setState({ ideas: [...this.state.ideas, newIdea] });
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ ...newIdea })
+    };
+
+    fetch('http://localhost:3001/api/v1/ideas', options)
+      .then(response => response.json())
+      .then(response => fetch(`http://localhost:3001/api/v1/ideas/${response.id}`))
+      .then(response => response.json())
+      .then(newIdea => this.setState({ ideas: [...this.state.ideas, newIdea] }))
+      .catch(error => this.setState({ error: error.message }))
   }
 
   deleteIdea = (id) => {
-    const filteredIdeas = this.state.ideas.filter(idea => idea.id != id);
+    const options = {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
 
-    this.setState({ ideas: filteredIdeas });
+    fetch(`http://localhost:3001/api/v1/ideas/${id}`, options)
+      .then(() => fetch('http://localhost:3001/api/v1/ideas'))
+      .then(response => response.json())
+      .then(ideas => this.setState({ ideas }))
+      .catch(error => this.setState({ error: error.message }));
   }
 
   render() {
@@ -29,6 +56,7 @@ class App extends Component {
       <main className='App'>
         <h1>IdeaBox</h1>
         <Form addIdea={this.addIdea} />
+        {this.state.error && <h2>{this.state.error}</h2>}
         <Ideas ideas={this.state.ideas} deleteIdea={this.deleteIdea} />
       </main>
     )
