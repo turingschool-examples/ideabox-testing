@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Ideas from './Ideas';
 import Form from './Form';
+import { getIdeas, getIdea, createIdea, removeIdea } from './apiCalls';
 import './App.css';
 
 class App extends Component {
@@ -12,43 +13,33 @@ class App extends Component {
     }
   }
 
-  componentDidMount() {
-    fetch('http://localhost:3001/api/v1/ideas')
-      .then(response => response.json())
-      .then(ideas => this.setState({ ideas }))
-      .catch(error => this.setState({ error: error.message }));
-  }
-
-  addIdea = (newIdea) => {
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ ...newIdea })
-    };
-
-    fetch('http://localhost:3001/api/v1/ideas', options)
-      .then(response => response.json())
-      .then(response => fetch(`http://localhost:3001/api/v1/ideas/${response.id}`))
-      .then(response => response.json())
-      .then(newIdea => this.setState({ ideas: [...this.state.ideas, newIdea] }))
-      .catch(error => this.setState({ error: error.message }))
-  }
-
-  deleteIdea = (id) => {
-    const options = {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json'
-      }
+  async componentDidMount() {
+    try {
+      const ideas = await getIdeas()
+      this.setState({ideas})
+    } catch(error) {
+      this.setState({error: error.message})
     }
+  }
 
-    fetch(`http://localhost:3001/api/v1/ideas/${id}`, options)
-      .then(() => fetch('http://localhost:3001/api/v1/ideas'))
-      .then(response => response.json())
-      .then(ideas => this.setState({ ideas }))
-      .catch(error => this.setState({ error: error.message }));
+  addIdea = async (newIdea) => {
+    try {
+      const newId = await createIdea(newIdea);
+      const createdIdea = await getSpecificIdea(newId.id);
+      this.setState({ ideas: [...this.state.ideas, createdIdea] })
+    } catch(error) {
+      this.setState({ error: 'Error adding a new idea' })
+    }
+  }
+
+  deleteIdea = async (id) => {
+    try {
+      await removeIdea(id);
+      const ideas = await getIdeas();
+      this.setState({ ideas: ideas });
+    } catch(error) {
+      this.setState({ error: error.message })
+    }
   }
 
   render() {

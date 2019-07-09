@@ -15,14 +15,9 @@ exports[`App should match snapshot 1`] = `
     ideas={
       Array [
         Object {
-          "description": "Stick googly eyes on all his stuff",
-          "id": 1,
-          "title": "Prank Travis",
-        },
-        Object {
-          "description": "So you and your rideshare driver can both know neither one of you is lying",
-          "id": 2,
-          "title": "Make a secret password app",
+          "description": "Why not?",
+          "id": 3,
+          "title": "Sweaters for pugs",
         },
       ]
     }
