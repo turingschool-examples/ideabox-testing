@@ -1,5 +1,5 @@
 import React from 'react';
-import { getIdeas, getSpecificIdea, createIdea } from './apiCalls';
+import { getIdeas, getSpecificIdea, createIdea, removeIdea } from './apiCalls';
 
 describe('apiCalls', () => {
   describe('getIdeas', () => {
@@ -134,6 +134,24 @@ describe('apiCalls', () => {
       });
     });
 
-    // it('should')
+    it('should call fetch with correct data', () => {
+      const expected = ['http://localhost:3001/api/v1/ideas/1', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }]
+      removeIdea(1);
+
+      expect(window.fetch).toHaveBeenCalledWith(...expected);
+    });
+
+    it('should return an error', async () => {
+      window.fetch = jest.fn().mockImplementation(() => {
+        return Promise.reject();
+      });
+
+      await expect(removeIdea()).rejects.toEqual(Error('Error deleting idea'));
+    });
   });
 });
