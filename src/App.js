@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Ideas from './Ideas';
 import Form from './Form';
-import { getIdeas, getIdea, createIdea, removeIdea } from './apiCalls';
+import { getIdeas, getSpecificIdea, createIdea, removeIdea } from './apiCalls';
 import './App.css';
 
 class App extends Component {

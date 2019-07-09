@@ -1,22 +1,28 @@
 export const getIdeas = async () => {
   try {
     const response = await fetch('http://localhost:3001/api/v1/ideas');
+    if (!response.ok) {
+      throw new Error('Error fetching ideas')
+    }
     const ideas = await response.json();
 
     return ideas;
   } catch (error) {
-    throw Error('Error fetching ideas');
+    throw new Error(error.message);
   }
 }
 
 export const getSpecificIdea = async (id) => {
   try {
     const response = await fetch(`http://localhost:3001/api/v1/ideas/${id}`);
+    if (!response.ok) {
+      throw new Error('Error fetching your idea')
+    }
     const idea = await response.json();
-
+  
     return idea;
   } catch (error) {
-    throw Error('Error fetching idea');
+    throw new Error(error.message);
   }
 }
 
@@ -32,11 +38,14 @@ export const createIdea = newIdea => {
   return fetch('http://localhost:3001/api/v1/ideas', options)
   .then(response => {
     if (!response.ok) {
-      throw Error('Error creating idea')
+      throw new Error('Error creating idea')
     } else {
       return response.json()
     }
   })
+  .catch(err => {
+    throw new Error(err.message)
+  });
 }
 
 export const removeIdea = async (id) => {
@@ -48,10 +57,13 @@ export const removeIdea = async (id) => {
       }
     }
 
-    await fetch(`http://localhost:3001/api/v1/ideas/${id}`, options);
+    const response = await fetch(`http://localhost:3001/api/v1/ideas/${id}`, options);
+    if (!response.ok) {
+      throw new Error('Error deleting idea')
+    }
 
     return;
   } catch(error) {
-    throw Error('Error deleting idea');
+    throw new Error(error.message);
   }
 }
