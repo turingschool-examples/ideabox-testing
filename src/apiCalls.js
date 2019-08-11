@@ -12,7 +12,7 @@ export const getIdeas = async () => {
   }
 }
 
-export const getSpecificIdea = async (id) => {
+export const getIdea = async (id) => {
   try {
     const response = await fetch(`http://localhost:3001/api/v1/ideas/${id}`);
     if (!response.ok) {
@@ -26,7 +26,7 @@ export const getSpecificIdea = async (id) => {
   }
 }
 
-export const createIdea = newIdea => {
+export const postIdea = newIdea => {
   const options = {
     method: 'POST',
     headers: {
