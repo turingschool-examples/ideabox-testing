@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Ideas from './Ideas';
 import Form from './Form';
-import { getIdeas, getSpecificIdea, createIdea, removeIdea } from './apiCalls';
+import { getIdeas, getIdea, postIdea, removeIdea } from './apiCalls';
 import './App.css';
 
 class App extends Component {
@@ -24,8 +24,8 @@ class App extends Component {
 
   addIdea = async (newIdea) => {
     try {
-      const newId = await createIdea(newIdea);
-      const createdIdea = await getSpecificIdea(newId.id);
+      const newId = await postIdea(newIdea);
+      const createdIdea = await getIdea(newId.id);
       this.setState({ ideas: [...this.state.ideas, createdIdea] })
     } catch(error) {
       this.setState({ error: 'Error adding a new idea' })
