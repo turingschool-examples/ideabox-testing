@@ -1,12 +1,12 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import App from './App';
-import { createIdea, getSpecificIdea, removeIdea, getIdeas } from './apiCalls';
+import { postIdea, getIdea, removeIdea, getIdeas } from './apiCalls';
 jest.mock('./apiCalls', () => ({
-  createIdea: jest.fn().mockImplementation(() => {
+  postIdea: jest.fn().mockImplementation(() => {
     return {id: 3}
   }),
-  getSpecificIdea: jest.fn().mockImplementation(() => {
+  getIdea: jest.fn().mockImplementation(() => {
     return {id: 3, title: 'Sweaters for pugs', description: 'Why not?'}
   }),
   removeIdea: jest.fn(),
