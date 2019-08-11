@@ -1,5 +1,5 @@
 import React from 'react';
-import { getIdeas, getSpecificIdea, createIdea, removeIdea } from './apiCalls';
+import { getIdeas, getIdea, postIdea, removeIdea } from './apiCalls';
 
 describe('apiCalls', () => {
   describe('getIdeas', () => {
@@ -51,7 +51,7 @@ describe('apiCalls', () => {
     });
   });
 
-  describe('getSpecificIdea', () => {
+  describe('getIdea', () => {
     let mockIdea;
 
     beforeEach(() => {
@@ -68,13 +68,13 @@ describe('apiCalls', () => {
     it('should be called with correct URL', () => {
       const expected = 'http://localhost:3001/api/v1/ideas/4';
 
-      getSpecificIdea(4);
+      getIdea(4);
 
       expect(window.fetch).toHaveBeenCalledWith(expected);
     });
 
     it('HAPPY: should return a parsed response', async () => {
-      const result = await getSpecificIdea(4);
+      const result = await getIdea(4);
 
       expect(result).toEqual(mockIdea);
     });
@@ -86,7 +86,7 @@ describe('apiCalls', () => {
         })
       });
 
-      expect(getSpecificIdea(4)).rejects.toEqual(Error('Error fetching your idea'));
+      expect(getIdea(4)).rejects.toEqual(Error('Error fetching your idea'));
     });
 
     it('SAD: should return an error if promise rejects', () => {
@@ -96,11 +96,11 @@ describe('apiCalls', () => {
         })
       });
 
-      expect(getSpecificIdea(4)).rejects.toEqual(Error('Problem getting your idea'));
+      expect(getIdea(4)).rejects.toEqual(Error('Problem getting your idea'));
     });
   });
 
-  describe('createIdea', () => {
+  describe('postIdea', () => {
     let mockIdea;
     let mockResponse;
 
@@ -122,13 +122,13 @@ describe('apiCalls', () => {
         { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(mockIdea) }
       ];
 
-      createIdea(mockIdea);
+      postIdea(mockIdea);
 
       expect(window.fetch).toHaveBeenCalledWith(...expected);
     });
 
     it('HAPPY: should return a parsed response', async () => {
-      const result = await createIdea(mockIdea);
+      const result = await postIdea(mockIdea);
 
       expect(result).toEqual(mockResponse);
     });
@@ -140,7 +140,7 @@ describe('apiCalls', () => {
         })
       });
 
-      expect(createIdea(mockIdea)).rejects.toEqual(Error('Error creating idea'));
+      expect(postIdea(mockIdea)).rejects.toEqual(Error('Error creating idea'));
     });
 
     it('SAD: should return an error if promise rejects', () => {
@@ -150,7 +150,7 @@ describe('apiCalls', () => {
         });
       });
 
-      expect(createIdea(mockIdea)).rejects.toEqual(Error('Problem creating your idea'));
+      expect(postIdea(mockIdea)).rejects.toEqual(Error('Problem creating your idea'));
     });
   });
 
