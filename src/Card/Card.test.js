@@ -8,7 +8,7 @@ describe('Card', () => {
       title="Bananas"
       description="B A N A N A S"
       id={3}
-      deleteIdea={jest.fn()}
+      removeIdea={jest.fn()}
     />);
 
     expect(wrapper).toMatchSnapshot();
@@ -20,7 +20,7 @@ describe('Card', () => {
         title='bananas'
         description='b a n a n a s'
         id={3}
-        deleteIdea={jest.fn()}
+        removeIdea={jest.fn()}
         isFavorite={true}
       />
     )
@@ -28,7 +28,7 @@ describe('Card', () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('should call the deleteIdea prop with the Card\'s id when clicked', () => {
+  it('should call the removeIdea prop with the Card\'s id when clicked', () => {
     // Setup
     const removeIdeaMock = jest.fn();
     const wrapper = shallow(
