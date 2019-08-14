@@ -16,9 +16,8 @@ export default class App extends Component {
   }
 
   removeIdea = id => {
-    var ideas = this.state.ideas.filter(idea => idea.id !== id);
+    const ideas = this.state.ideas.filter(idea => idea.id !== id);
     this.setState({ ideas });
-
   }
 
   render() {
