@@ -1,0 +1,13 @@
+input {
+  border: none;
+  outline: none;
+  height: 30px;
+  width: 180px;
+  padding: 5px;
+  margin-right: 5px;
+  box-shadow: 1px 1px 45px #AAF;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 100;
+  text-align: center;
+}
