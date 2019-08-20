@@ -7,27 +7,73 @@ export default class App extends Component {
   constructor() {
     super();
     this.state = {
-      ideas: []
+      ideas: [],
+      isLoading: true,
+      error: ''
     };
   }
 
+  componentDidMount() {
+    fetch('http://localhost:3001/api/v1/ideas')
+      .then(data => data.json())
+      .then(ideas => this.setState({ ideas, isLoading: false }))
+      .catch(error => this.setState({
+        isLoading: false,
+        error: 'Unable to retrieve ideas.'
+      }))
+  }
+
   addIdea = newIdea => {
-    this.setState({ ideas: [...this.state.ideas, newIdea]})
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(newIdea),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+
+    fetch('http://localhost:3001/api/v1/ideas', options)
+      .then(response => response.json())
+      .then(idea => this.setState({
+        ideas: [...this.state.ideas, idea]
+      }))
+      .catch(error => this.setState({
+        error: 'There was a problem adding your new idea.'
+      }))
   }
 
   removeIdea = id => {
-    const ideas = this.state.ideas.filter(idea => idea.id !== id);
-    this.setState({ ideas });
+    const options = {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+
+    fetch(`http://localhost:3001/api/v1/ideas/${id}`, options)
+      .then(() => fetch('http://localhost:3001/api/v1/ideas'))
+      .then(response => response.json())
+      .then(ideas => this.setState({ ideas }))
+      .catch(error => this.setState({
+        error: 'There was a problem deleting that idea.'
+      }));
   }
 
   render() {
+    const { ideas, isLoading, error } = this.state;
     return (
       <main className="App">
         <h1>IdeaBox</h1>
         <Form addIdea={this.addIdea} />
-        <Ideas 
-          ideas={this.state.ideas} 
-          removeIdea={ this.removeIdea} 
+        {isLoading && <img
+          src={'https://www.gearbubble.com/assets/loader_large.gif'}
+          alt={''}
+        />
+        }
+        {error && <h2>{error}</h2>}
+        <Ideas
+          ideas={ideas}
+          removeIdea={this.removeIdea}
         />
       </main>
     )
