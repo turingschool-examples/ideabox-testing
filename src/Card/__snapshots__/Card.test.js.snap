@@ -20,7 +20,7 @@ exports[`Card should match the favorited snapshot 1`] = `
 
 exports[`Card should match the snapshot with all data passed in correctly 1`] = `
 <section
-  className="card"
+  className="favorite"
 >
   <h3>
     Bananas
