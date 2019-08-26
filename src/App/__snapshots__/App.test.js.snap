@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App should match the snapshot 1`] = `
+<main
+  className="App"
+>
+  <h1>
+    IdeaBox
+  </h1>
+  <Form
+    addIdea={[Function]}
+  />
+  <img
+    alt=""
+    src="https://www.gearbubble.com/assets/loader_large.gif"
+  />
+  <Ideas
+    ideas={Array []}
+    removeIdea={[Function]}
+  />
+</main>
+`;

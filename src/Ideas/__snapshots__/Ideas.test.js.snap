@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Ideas should match snapshot 1`] = `
+<Fragment>
+  <h2>
+    Ideas Component
+  </h2>
+  <section
+    className="ideas"
+  >
+    <Card
+      description="To keep them warm"
+      id={1}
+      isFavorite={true}
+      key="1"
+      removeIdea={[MockFunction]}
+      title="Sweaters for pugs"
+    />
+    <Card
+      description="But make it ghosts"
+      id={2}
+      isFavorite={true}
+      key="2"
+      removeIdea={[MockFunction]}
+      title="A romcom"
+    />
+    <Card
+      description="When you lose you get chloroformed"
+      id={3}
+      isFavorite={true}
+      key="3"
+      removeIdea={[MockFunction]}
+      title="A game show called Ether/Or"
+    />
+  </section>
+</Fragment>
+`;

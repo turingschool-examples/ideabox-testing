@@ -19,8 +19,9 @@ export default class App extends Component {
       .then(ideas => this.setState({ ideas, isLoading: false }))
       .catch(error => this.setState({
         isLoading: false,
-        error: 'Unable to retrieve ideas.'
-      }))
+        error: error.message
+      })
+    );
   }
 
   addIdea = newIdea => {
