@@ -15,7 +15,7 @@ export default class App extends Component {
 
   componentDidMount() {
     fetch('http://localhost:3001/api/v1/ideas')
-      .then(data => data.json())
+      .then(response => response.json())
       .then(ideas => this.setState({ ideas, isLoading: false }))
       .catch(error => this.setState({
         isLoading: false,
@@ -38,9 +38,7 @@ export default class App extends Component {
       .then(idea => this.setState({
         ideas: [...this.state.ideas, idea]
       }))
-      .catch(error => this.setState({
-        error: 'There was a problem adding your new idea.'
-      }))
+      .catch(error => this.setState({ error: error.message }))
   }
 
   removeIdea = id => {
@@ -55,9 +53,7 @@ export default class App extends Component {
       .then(() => fetch('http://localhost:3001/api/v1/ideas'))
       .then(response => response.json())
       .then(ideas => this.setState({ ideas }))
-      .catch(error => this.setState({
-        error: 'There was a problem deleting that idea.'
-      }));
+      .catch(error => this.setState({ error: error.message }));
   }
 
   render() {
