@@ -1,44 +1,59 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import App from './App';
+import { getIdeas, postIdea, deleteIdea } from '../apiCalls'
+
+jest.mock('../apiCalls.js')
 
 describe('App', () => {
+  beforeEach(() => {
+    getIdeas.mockImplementation(() => {
+      return Promise.resolve([{ id: 1, title: 'Idea', description: 'It\'s great' }])
+    });
+  });
+
   it('should match the snapshot', () => {
     const wrapper = shallow(<App />);
 
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('should update state with an idea when addIdea is called', () => {
-    // Setup
+  it('should retrieve ideas after mounting', async () => {
+    shallow(<App />);
+    expect(getIdeas).toHaveBeenCalled();
+  });
+
+  it('should update state with an idea when addIdea is called', async () => {
+    postIdea.mockImplementation(() => {
+      return Promise.resolve(
+        { id: 2, title: 'Sweaters for pugs', description: 'Why not?' }
+      );
+    })
     const wrapper = shallow(<App />);
-    const mockIdea = { title: 'sweaters for pugs', description: 'why not?', id: Date.now() };
-    const expected = [mockIdea];
+    const mockIdea = { id: 2, title: 'Sweaters for pugs', description: 'Why not?' };
+    const expected = [{id: 1, title: 'Idea', description: 'It\'s great'}, mockIdea];
 
-    // Expectation
-    expect(wrapper.state('ideas')).toEqual([]);
+    await wrapper.instance().addIdea(mockIdea);
 
-    // Execution
-    wrapper.instance().addIdea(mockIdea);
-
-    // Expectation
+    expect(postIdea).toHaveBeenCalled();
     expect(wrapper.state('ideas')).toEqual(expected);
   });
 
-  it('should remove an idea from state when removeIdea is called', () => {
-    const wrapper = shallow(<App />);
+  it('should remove an idea from state when removeIdea is called', async () => {
     const mockIdeas = [
-      {id: 1, title: 'Sweaters for pugs', description: 'To keep them warm'},
+      { id: 1, title: 'Idea', description: 'It\'s great' },
       {id: 2, title: 'A romcom', description: 'But make it ghosts'},
-      {id: 3, title: 'A game show called Ether/Or', description: 'When you lose you get chloroformed'},
     ];
-    const expected = [
-      {id: 1, title: 'Sweaters for pugs', description: 'To keep them warm'},
-      {id: 3, title: 'A game show called Ether/Or', description: 'When you lose you get chloroformed'},
-    ]
+    const expected = [{ id: 1, title: 'Idea', description: 'It\'s great' }];
+
+    deleteIdea.mockImplementation(() => {
+      return Promise.resolve(getIdeas());
+    })
+
+    const wrapper = shallow(<App />);
 
     wrapper.instance().setState({ ideas: mockIdeas });
-    wrapper.instance().removeIdea(2);
+    await wrapper.instance().removeIdea(2);
 
     expect(wrapper.state('ideas')).toEqual(expected);
   });

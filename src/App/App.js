@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Form from '../Form/Form';
 import Ideas from '../Ideas/Ideas'
+import { getIdeas, postIdea, deleteIdea } from '../apiCalls';
 import './App.css';
 
 export default class App extends Component {
@@ -14,8 +15,7 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    fetch('http://localhost:3001/api/v1/ideas')
-      .then(response => response.json())
+    getIdeas()
       .then(ideas => this.setState({ ideas, isLoading: false }))
       .catch(error => this.setState({
         isLoading: false,
@@ -25,16 +25,7 @@ export default class App extends Component {
   }
 
   addIdea = newIdea => {
-    const options = {
-      method: 'POST',
-      body: JSON.stringify(newIdea),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    };
-
-    fetch('http://localhost:3001/api/v1/ideas', options)
-      .then(response => response.json())
+    postIdea(newIdea)
       .then(idea => this.setState({
         ideas: [...this.state.ideas, idea]
       }))
@@ -42,16 +33,7 @@ export default class App extends Component {
   }
 
   removeIdea = id => {
-    const options = {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }
-
-    fetch(`http://localhost:3001/api/v1/ideas/${id}`, options)
-      .then(() => fetch('http://localhost:3001/api/v1/ideas'))
-      .then(response => response.json())
+    deleteIdea(id)
       .then(ideas => this.setState({ ideas }))
       .catch(error => this.setState({ error: error.message }));
   }
