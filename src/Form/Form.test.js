@@ -7,7 +7,7 @@ describe('Form', () => {
   const mockAddIdea = jest.fn();
 
   beforeEach(() => {
-    wrapper = shallow(<Form addIdea={jest.fn()} />);
+    wrapper = shallow(<Form addIdea={mockAddIdea} />);
   });
 
   it('should match the snapshot', () => {
@@ -41,7 +41,7 @@ describe('Form', () => {
     wrapper.instance().resetInputs = jest.fn();
     wrapper.instance().submitNewIdea(mockEvent);
     
-    expect(wrapper.instance().props.addIdea).toHaveBeenCalledWith(expected);
+    expect(mockAddIdea).toHaveBeenCalledWith(expected);
     expect(wrapper.instance().resetInputs).toHaveBeenCalled();
   });
 
