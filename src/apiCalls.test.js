@@ -1,17 +1,15 @@
 import { getIdeas, postIdea, deleteIdea } from './apiCalls';
 
 describe('getIdeas', () => {
-  let mockResponse;
+  let mockResponse = [
+    {
+      id: 1,
+      title: "Sweaters for pugs",
+      description: "To keep them warm"
+    }
+  ];
 
   beforeEach(() => {
-    mockResponse = [
-      {
-        id: 1,
-        title: "Sweaters for pugs",
-        description: "To keep them warm"
-      }
-    ];
-
     window.fetch = jest.fn().mockImplementation(() => {
       return Promise.resolve({
         ok: true,
