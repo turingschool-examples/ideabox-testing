@@ -5,10 +5,7 @@ export const getIdeas = () => {
         throw new Error('Error fetching ideas');
       }
       return response.json();
-    })
-    .catch(error => {
-      throw Error(error.message);
-    })
+    });
 };
 
 export const postIdea = newIdea => {
@@ -27,10 +24,7 @@ export const postIdea = newIdea => {
       }
 
       return response.json()
-    })
-    .catch(error => {
-      throw Error(error.message)
-    })
+    });
 };
 
 export const deleteIdea = id => {
@@ -47,7 +41,5 @@ export const deleteIdea = id => {
         throw Error('Error deleting idea.')
       }
       return getIdeas();
-    }).catch(error => {
-      throw Error(error.message)
     });
 };

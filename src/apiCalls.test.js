@@ -40,9 +40,7 @@ describe('getIdeas', () => {
 
   it('SAD: should return an error if promise rejects', () => {
     window.fetch = jest.fn().mockImplementation(() => {
-      return Promise.reject({
-        message: 'fetch failed'
-      })
+      return Promise.reject(Error('fetch failed'))
     });
 
     expect(getIdeas()).rejects.toEqual(Error('fetch failed'));
@@ -94,9 +92,7 @@ describe('postIdea', () => {
 
   it('SAD: should return an error if promise rejects', () => {
     window.fetch = jest.fn().mockImplementation(() => {
-      return Promise.reject({
-        message: 'fetch failed'
-      })
+      return Promise.reject(Error('fetch failed'))
     });
 
     expect(postIdea(mockIdea)).rejects.toEqual(Error('fetch failed'));
@@ -138,9 +134,7 @@ describe('deleteIdea', () => {
 
   it('SAD: should return an error if promise rejects', () => {
     window.fetch = jest.fn().mockImplementation(() => {
-      return Promise.reject({
-        message: 'fetch failed'
-      })
+      return Promise.reject(Error('fetch failed'))
     });
 
     expect(deleteIdea(2)).rejects.toEqual(Error('fetch failed'));
